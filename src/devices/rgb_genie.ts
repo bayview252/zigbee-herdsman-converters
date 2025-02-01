@@ -232,12 +232,13 @@ const definitions: DefinitionWithExtend[] = [
     },
     {
         zigbeeModel: ['RGBgenie ZB-5004'],
-        model: 'ZB-5004',
-        vendor: 'RGB Genie',
-        description: 'Zigbee 3.0 remote control',
-        fromZigbee: [fz.command_recall, fz.command_on, fz.command_off, fz.command_move, fz.command_stop, fz.battery],
-        exposes: [e.battery(), e.action(['recall_*', 'on', 'off', 'brightness_stop', 'brightness_move_up', 'brightness_move_down'])],
-        toZigbee: [],
+        model: 'RGBgenie ZB-5004',
+        vendor: 'RGBgenie',
+        description: 'Zigbee 3.0 Dimmer remote control with 4 endpoints and 2 scenes',
+ 	    // exposes on_*,off_*,brightness_move_up/down/stop_*,recall_* for each zone
+ 	    //
+        extend: [deviceEndpoints({"endpoints":{"1":1,"2":2,"3":3,"4":4}}), battery(), commandsOnOff({"endpointNames":["1","2","3","4"]}), commandsLevelCtrl({"endpointNames":["1","2","3","4"]}), commandsColorCtrl({"endpointNames":["1","2","3","4"]}), commandsScenes({"endpointNames":["1","2","3","4"]})],
+        meta: {"multiEndpoint":true},
     },
 ];
 
